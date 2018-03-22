@@ -1,5 +1,6 @@
 var mongoose = require("mongoose");
 var Schema =  mangoose.Schema;
+
 var JobSchema = new Schema({
     type: String,
     company: String,
@@ -16,10 +17,10 @@ var userSchema = new Schema({
     lastUpdated: Date
 
 });
-//userSchema.pre("save",function(next){
-//this.password ="indeche13"+ password;
-//this.lastUpdated= Date.now;
-//})
+ userSchema.pre("save",function(next){
+ this.password ="indeche13"+ password;
+ this.lastUpdated= Date.now;
+ })
 module.exports = mongoose.model("User",userSchema);
 
 

@@ -1,8 +1,9 @@
 var mongoose = require("mongoose");
 var Schema =  mangoose.Schema;
+
 var LocationBlogSchema = new Schema({
     info:{type: String,require: true},
-    //img: [String]
+    img: String,
     pos:{
         longitude: {type: Number,require: true},
         latitude: {type: Number,require: true}
@@ -13,7 +14,8 @@ var LocationBlogSchema = new Schema({
    lastUpdated: {type: Date,default:Date.now},
    
 })
-locationBlogSchema .virtual("slug")
+locationBlogSchema 
+.virtual("slug")
 .get(function(){
     return "/locationBlog/",+this._id;
 })
