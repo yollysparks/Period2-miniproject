@@ -1,9 +1,16 @@
-var express = require('express');
-var router = express.Router();
+import React, { Component } from 'react';
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
-
-module.exports = router;
+class Index extends Component {
+    state = {
+        user: {}
+    }   
+    async getInitialProps(req){
+          console.log(req.req.mongoDB.User.find({}, result => result))
+    }
+    render() {
+        return (
+            <h1>This is my mini Project!</h1>
+        )
+    }
+}
+export default Index;
