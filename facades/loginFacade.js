@@ -1,6 +1,6 @@
 var mongoose = require("mongoose");
 var Position = require("../models/position");
-var db = require("../facades/dbFacade");
+var User = require("../facades/userFacade");
 
 
 async function login(username, password, longitude, latitude, distance) {
