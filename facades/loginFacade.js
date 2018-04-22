@@ -1,22 +1,40 @@
 var mongoose = require("mongoose");
-var User = require("../models/user");
 var Position = require("../models/position");
+var db = require("../facades/dbFacade");
 
-function login(username,password,longitude,latitude,distance){
-    var authenticUser = User.findOne({userName});
-    if (authenticUser== true)
-    return Position.findById({username}).exec;
-      if (err) 
-       return handleError(err);
 
-  }
-  function updatePosition(username,pos){
-    var locate = Position.findOne(username);
-    return Position.findOneAndUpdate(username,{position:pos},{new:true});
-  }
+async function login(username, password, longitude, latitude, distance) {
 
-  function findNearby(point,dist){
-     return Position.find(
-      { loc : { $near : [ -73.9667, 40.78 ], $maxDistance: 0.10 } }
-       );
-  }
+    try {
+        const user = await db.findUser(username, password);
+        if (user != null) {
+            const loc = {
+                'type': 'point',
+                'coordinates': [longitude, latitude]
+            }
+            const pos = Position.findOneAndUpdate({user:user.id}, {user: user, loc: loc}, {upsert: true}).exec();
+
+            const friends = findFriends(loc, distance*1000);
+            return friends;
+        }
+        else {
+            throw {msg: "Wrong username or password", status: 403};
+        }
+    }
+    catch (err) {
+        throw err;
+    }
+}
+async function findFriends(point, dist) {
+    return Position.find(
+        {
+            loc:
+            { $near: {
+                $geometry: point,
+                $maxDistance: dist
+            }}
+        }
+    );
+}
+
+module.exports = login;
