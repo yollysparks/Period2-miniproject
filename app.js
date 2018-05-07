@@ -26,9 +26,6 @@ app.use('/', index);
 app.use('/users', usersApi);
 app.use('/api', locationApi);
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
