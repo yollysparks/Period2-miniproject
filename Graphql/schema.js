@@ -21,6 +21,20 @@ type Query{
     findByUsername(userName:String):User
     findById(userId:ID):User
 }
+input UserInput {
+    firstName: String
+    lastName: String
+    userName : String
+    password : String
+  }
+  input UserName {
+    userName : String
+  }
+ 
+  type Mutation {
+    addUser(input: UserInput): User
+  }
+  
 `
 const schema = makeExecutableSchema({typeDefs,resolvers});
 module.exports =  {schema};

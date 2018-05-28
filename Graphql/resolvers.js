@@ -11,11 +11,30 @@ module.exports = resolvers = {
     getAllUsers : () => {
       return userFacade.getAllUsers();
     },  
-    findByUsername:()=> {
-      return userFacade.findByUsername();
+    findByUsername:(root,{input})=> {
+      return userFacade.findByUsername(input.userName);
     },  
     findById:()=> {
       return userFacade.findById();
     },  
   },
+Mutation: {
+  addUser : (root, {input}) => {
+    const newUser = new User({
+      firstName : input.firstName,
+      lastName : input.lastName,
+      userName: input.userName,
+      password: input.password
+    });
+
+    newUser.id = newUser._id;
+
+    return new Promise((resolve, object) => {
+      newUser.save((err) => {
+        if(err) reject(err);
+        else resolve(newUser)
+      })
+    })
+  }
+ }
 };
